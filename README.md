@@ -21,8 +21,8 @@
 |---|---|
 | ![](assets/01-sunrise-cloudsea.jpg) | ![](assets/05-milkyway-lantern.jpg) |
 | ![](assets/03-bluehour-rooftop.jpg) | ![](assets/04-rainy-neon-street.jpg) |
-| ![](assets/07-cos-shinobu-wisteria-dusk.jpg) | ![](assets/08-cos-changli-brazier-valley.jpg) |
-| ![](assets/06-cos-firefly-sunrise-field.jpg) | ![](assets/09-cos-miku-stage.jpg) |
+| ![](assets/07-cos-shinobu-wisteria-dusk.jpg) | ![](assets/08-cos-hutao-lanterns.jpg) |
+| ![](assets/06-cos-firefly-sunrise-field.jpg) | ![](assets/09-cos-2b-ruins.jpg) |
 
 十张成品各自的完整提示词在 [`docs/配方全文.md`](docs/配方全文.md)，可以直接复制。
 
@@ -72,8 +72,12 @@ bash install.sh            # Windows: powershell -ExecutionPolicy Bypass -File i
 **② 光源的距离和方位都要钉死。**
 「整片城市霓虹就在她身后」——霓虹在几百米外，落到人身上的光约等于零，出来是**好看的背景板**。
 「和她的头一样高」只锁了高度，太阳照样会飘到侧后方去，得补一句「正好在她的头的正后方」。
-⛔ 还有一条反直觉的：**灯具名词自带高度语义**，写「路灯，灯头和她的头一样高」，
+⛔ 还有两条反直觉的：**灯具名词自带高度语义**，写「路灯，灯头和她的头一样高」，
 模型会按路灯的常识把灯架到她正上方 —— 要低位光源就换一个本来就矮的灯具（矮墙上的马灯）。
+**量词也是位置信息**：「一*串*红灯笼挂在她身后」会被理解成街道两边成排的灯笼，
+光源等于跑到两侧去，边光全没 —— 要定点光源就用单数。
+⚠️ 而「正后方」这条只对能透光的浅色主体成立；一身黑的角色钉正后方会变成剪影，
+得让光源偏一侧、再逐条点名亮线落在哪几条边上。
 
 **③ 每张给一组补色对。**
 光已经对了但画面还是平，九成是因为整张图只有一个色温。
