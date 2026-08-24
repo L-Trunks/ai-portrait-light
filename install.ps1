@@ -1,4 +1,4 @@
-# 把 zimage-portrait-light 装进 Claude Code 的个人 skills 目录（Windows）。
+# 把 ai-portrait-light 装进 Claude Code 的个人 skills 目录（Windows）。
 #
 #   powershell -ExecutionPolicy Bypass -File install.ps1
 #   powershell -ExecutionPolicy Bypass -File install.ps1 -Project
@@ -34,5 +34,5 @@ Write-Host ""
 Write-Host "共 $n 个 skill -> $dst（$scope）"
 Write-Host ""
 Write-Host "现在跟 Claude Code 说一句「帮我写个逆光人像的提示词」就会触发。"
-Write-Host "不用 Claude 也行：skills\zimage-portrait-light\SKILL.md 本身就是配方文档，"
+Write-Host "不用 Claude 也行：skills\portrait-light\SKILL.md 本身就是配方文档，"
 Write-Host "十张成品和它们的完整提示词在 docs\配方全文.md。"
