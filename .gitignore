@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+
+# 本机跑出来的产物，不是仓库内容
+*.log
+*.mp4
+*.wav
+
+# ⚠️ assets/ 里的十张成品是仓库内容，必须提交 —— 不要往这里加 *.jpg / *.png 的全局忽略。
+#    （这份是从 ai-film-skills 抄过来的，那边忽略了 *.jpg 只放行 docs/**，
+#     照抄会把 assets/ 整个吞掉。）
+
+# 编辑器 / 系统
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
