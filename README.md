@@ -1,11 +1,11 @@
-# zimage-portrait-light
+# ai-portrait-light
 
-**给 z-image（以及一切 cfg=1 的加速模型）写人像光线提示词的配方。**
-十五轮 ~120 张同种子单变量对照打出来的，装成一个 Claude Code / Claude Desktop 的 skill。
+**给任何文生图模型写人像光线提示词的方法论。**
+~200 张同种子单变量对照打出来的，装成一个 Claude Code / Claude Desktop 的 skill。
 
-> *A Chinese-prompt lighting recipe for portrait image generation on cfg=1 models
-> (z-image / Lightning / turbo / S2V). Derived from ~120 single-variable A/B renders.
-> English summary: [README.en.md](README.en.md)*
+> *A model-agnostic methodology for writing portrait-lighting prompts, derived from
+> ~200 single-variable A/B renders. Prompts are full-sentence Chinese — they work as-is
+> in Doubao / Jimeng / Qwen as well as local ComfyUI. English summary: [README.en.md](README.en.md)*
 
 一句话版：
 
@@ -15,14 +15,14 @@
 
 ---
 
-![](assets/05-alley-fullbody.jpg)
+![](assets/02-sunset-reeds.jpg)
 
 | | |
 |---|---|
-| ![](assets/07-cos-shinobu-wisteria.jpg) | ![](assets/09-cos-miku-stage.jpg) |
-| ![](assets/01-bookstore-lightshaft.jpg) | ![](assets/02-reeds-ringlight.jpg) |
-| ![](assets/04-fireflies-in-hands.jpg) | ![](assets/03-nightmarket-duo.jpg) |
-| ![](assets/06-cos-firefly-flowerfield.jpg) | ![](assets/08-cos-changli-brazier.jpg) |
+| ![](assets/01-sunrise-cloudsea.jpg) | ![](assets/05-milkyway-lantern.jpg) |
+| ![](assets/03-bluehour-rooftop.jpg) | ![](assets/04-rainy-neon-street.jpg) |
+| ![](assets/07-cos-shinobu-wisteria-dusk.jpg) | ![](assets/08-cos-changli-brazier-valley.jpg) |
+| ![](assets/06-cos-firefly-sunrise-field.jpg) | ![](assets/09-cos-miku-stage.jpg) |
 
 十张成品各自的完整提示词在 [`docs/配方全文.md`](docs/配方全文.md)，可以直接复制。
 
@@ -31,38 +31,55 @@
 ## 装
 
 ```bash
-git clone https://github.com/L-Trunks/zimage-portrait-light.git
-cd zimage-portrait-light
+git clone https://github.com/L-Trunks/ai-portrait-light.git
+cd ai-portrait-light
 bash install.sh            # Windows: powershell -ExecutionPolicy Bypass -File install.ps1
 ```
 
 装到 `~/.claude/skills/`，之后跟 Claude Code 说一句「帮我写个逆光人像的提示词」就会触发。
 加 `--project` 则只装到当前项目。
 
-**不用 Claude 也能用** —— 直接读 [`skills/zimage-portrait-light/SKILL.md`](skills/zimage-portrait-light/SKILL.md)，
-它本身就是一份可以照着抄的配方文档。提示词是纯中文整段，粘到豆包 / 即梦 / 通义里同样成立。
+**不用 Claude 也能用** —— 直接读 [`skills/portrait-light/SKILL.md`](skills/portrait-light/SKILL.md)，
+它本身就是一份可以照着抄的方法论文档。提示词是纯中文整段，不用拆词、不用配负向。
 
 ## 里面有什么
 
 | 文件 | 内容 |
 |---|---|
-| [`skills/zimage-portrait-light/SKILL.md`](skills/zimage-portrait-light/SKILL.md) | 配方本体：四个档、五条硬结论、cfg=1 的写法铁律、量化验收的五个陷阱 |
-| [`docs/配方全文.md`](docs/配方全文.md) | 可复制的句子模块 + 十张成品的完整提示词 |
-| [`docs/对照实验.md`](docs/对照实验.md) | 十五轮怎么打的、每轮推翻了什么、度量脚本 |
+| [`skills/portrait-light/SKILL.md`](skills/portrait-light/SKILL.md) | 方法论本体：六条通用规律、三种构图族、光源怎么钉、模型相关的部分、验收陷阱 |
+| [`docs/配方全文.md`](docs/配方全文.md) | 十张成品的完整提示词，直接可抄 |
+| [`docs/对照实验.md`](docs/对照实验.md) | 逐轮怎么打的、每轮推翻了什么、度量脚本 |
 | `assets/` | 十张成品 |
 
-## 三条最贵的结论
+## 这份是方法论，不是某个模型的参数表
+
+规律按「换模型还成不成立」分成两半，SKILL.md 里是分开写的：
+
+- **换模型也成立**（构图和光学层面）：光靠场景写、空气要有介质、光源的距离和方位、
+  灯具名词自带高度、补色对、构图比光更强、三种构图族各自的写法。
+- **换模型要重验**（和采样器 / 条件机制绑定）：cfg=1 的负向失效、字数与景别的关系、
+  seed 的可复现性。
+
+证据是在本地 ComfyUI + z-image 上打的，但**除了上面第二类，其余都不依赖这个模型**。
+
+## 四条最贵的结论
 
 **① 光是靠场景写出来的，不是靠形容词。**
-五档强度的光线形容词堆在句尾，P1 / dB / HALO 三项纹丝不动；
+五档强度的光线形容词堆在句尾，三项指标纹丝不动；
 只把场景句从「身后是干净的暖白色墙面」换成「身后是敞开的店门和门外的街道」，逆光一次就出来。
 因为墙把太阳挡在画框外了 —— **要把场景写成物理上只能这么打光。**
 
-**② 空气里必须有被照亮的东西。**
-只写「金色时刻」，暖冷分离是 −10.11（等于没有）；加一句「空气里浮着被照亮的细小尘埃」→ +1.37。
-尘 / 絮 / 雾 / 雪粒 / 花瓣 / 火星 / 干冰烟都行，跟着场景走。
+**② 光源的距离和方位都要钉死。**
+「整片城市霓虹就在她身后」——霓虹在几百米外，落到人身上的光约等于零，出来是**好看的背景板**。
+「和她的头一样高」只锁了高度，太阳照样会飘到侧后方去，得补一句「正好在她的头的正后方」。
+⛔ 还有一条反直觉的：**灯具名词自带高度语义**，写「路灯，灯头和她的头一样高」，
+模型会按路灯的常识把灯架到她正上方 —— 要低位光源就换一个本来就矮的灯具（矮墙上的马灯）。
 
-**③ cfg=1 时没有「不要」。**
+**③ 每张给一组补色对。**
+光已经对了但画面还是平，九成是因为整张图只有一个色温。
+暖橘钠灯 ↔ 冷蓝雪夜、火橘 ↔ 夜蓝、蓝紫射灯 ↔ 暖橘荧光棒、冷蓝银河 ↔ 暖黄营灯。
+
+**④ cfg=1 时没有「不要」。**（模型相关：所有开了 Lightning / turbo / 蒸馏的模型）
 负向提示词形同虚设，填了不报错、只是不生效。所有禁止项必须**正向化写成肯定句**：
 
 | 想要 | ⛔ 写不出来 | ✅ 正着写 |
@@ -73,25 +90,33 @@ bash install.sh            # Windows: powershell -ExecutionPolicy Bypass -File i
 
 规律叫「可选结构改成不可选」：**`没有X` 是在召唤 X。**
 
-## 四个档，规律互相矛盾
+## 三种构图族，规律互相矛盾
 
 最容易翻车的地方 —— 很多人把「发丝光」的写法套到全身照上，怎么写都不出来。
 
-| | 暖金逆光·全身 | 侧脸发丝·近景 | 正脸环光·近景 | 自发光特写 |
-|---|---|---|---|---|
-| 靠什么成立 | 场景几何 | 构图（侧脸 + 近景） | 光的写法（环光 / 斜后光） | 一个自发光小物件 + 压暗 |
-| 色调 | 暖 | 暖 | 暖 | **冷，且冷是命根子** |
+| | 特写 | 近景 / 半身 | 环境人像（横幅）|
+|---|---|---|---|
+| 靠什么成立 | 暗部托脸 + 贴脸的光源 | 构图（人偏一侧 + 背景全糊）| 场景几何 + **贴身**主光 |
+| 背景 | 正向写死「糊成一片没有细节」 | 同左 | 反过来：**要有细节** |
+| 画幅 | ⛔ 只能竖幅 | 都行 | ⛔ 只能横幅 |
+| 最容易废在 | 画框收不住，退成胸像 | 背景抢戏 | 退化成「好看的背景板」|
 
-口诀：**全身看场景几何，近景看构图和光的写法，冷调只走自发光档。**
+⛔ **横幅压不住特写**：同一句特写相机在 16:9 下连改三版、十二张出图景别一寸没动；
+换成竖幅一次到位。16:9 的画框本身就在要求横向填充。
 
-## ⚠️ 一条免责
+## ⚠️ 两条免责
 
 **数值全对也可能是废片。** 这套里有八个量化指标，但它们只能证伪不能证真 ——
 数值最漂亮的那组是「人身上一点光都没有的好看背景板」，这条踩过三次。
-**唯一可靠的验收是肉眼看发丝有没有一根根亮起来。**
+**唯一可靠的验收是肉眼看：发丝有没有一根根亮起来、人身上有没有轮廓光。**
+
+**挑片比改措辞收敛快。** 同提示词换种子的摆幅，比绝大多数措辞改动都大 ——
+这十张是 30 张候选里挑的，**十个位置全部换掉了默认那张**。
+同一个方向改过三次还没动，说明卡的是构图或画幅这类结构性的东西，该换概念了。
 
 ## 许可
 
-配方文档与图片 CC BY 4.0，代码 MIT。详见 [LICENSE](LICENSE)。
+方法论文档与图片 CC BY 4.0，代码 MIT。详见 [LICENSE](LICENSE)。
+图中的 cosplay 角色版权归各自权利人所有，本仓库与其无关联。
 
 相关：[ai-film-skills](https://github.com/L-Trunks/ai-film-skills) —— 同一个人的 AI 短片方法论 skill 集。

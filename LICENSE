@@ -16,8 +16,8 @@ Full text: https://creativecommons.org/licenses/by/4.0/legalcode
 Suggested attribution:
 
 ```
-Lighting recipe from zimage-portrait-light (CC BY 4.0)
-https://github.com/L-Trunks/zimage-portrait-light
+Lighting recipe from ai-portrait-light (CC BY 4.0)
+https://github.com/L-Trunks/ai-portrait-light
 ```
 
 ## Code — MIT
@@ -27,7 +27,7 @@ Applies to `install.sh`, `install.ps1`, and any code blocks embedded in the docu
 ```
 MIT License
 
-Copyright (c) 2026 zimage-portrait-light contributors
+Copyright (c) 2026 ai-portrait-light contributors
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

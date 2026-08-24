@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# 把 zimage-portrait-light 装进 Claude Code 的 skills 目录。
+# 把 ai-portrait-light 装进 Claude Code 的 skills 目录。
 #
 #   bash install.sh              装到 ~/.claude/skills/（个人级，所有项目可用）
 #   bash install.sh --project    装到 ./.claude/skills/（只对当前项目可用）
@@ -36,5 +36,5 @@ echo
 echo "共 $n 个 skill -> $DST（$SCOPE）"
 echo
 echo "现在跟 Claude Code 说一句「帮我写个逆光人像的提示词」就会触发。"
-echo "不用 Claude 也行：skills/zimage-portrait-light/SKILL.md 本身就是配方文档，"
+echo "不用 Claude 也行：skills/portrait-light/SKILL.md 本身就是配方文档，"
 echo "十张成品和它们的完整提示词在 docs/配方全文.md。"

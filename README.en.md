@@ -1,13 +1,18 @@
-# zimage-portrait-light (English summary)
+# ai-portrait-light (English summary)
 
-A **Chinese-prompt lighting recipe** for portrait image generation on **cfg=1 models**
-(z-image, and anything running Lightning / turbo / S2V acceleration), packaged as a
-Claude Code skill. Derived from ~120 single-variable, fixed-seed A/B renders over fifteen rounds.
+A **model-agnostic methodology** for writing portrait-lighting prompts, packaged as a
+Claude Code skill. Derived from ~200 single-variable, fixed-seed A/B renders.
+
+The rules are split by whether they survive a change of model. Most of them — everything about
+composition, where the light source sits, and what has to be in the air — are optics and framing,
+and they carry over. A smaller set is tied to the sampler and conditioning (cfg=1 negative prompts,
+prompt length vs. crop, seed reproducibility) and has to be re-measured on a new model. SKILL.md
+keeps the two apart.
 
 The prompts are written in Chinese and are meant to stay that way — they are tuned against
-Chinese-native text encoders and work as-is in Doubao / Jimeng / Qwen as well as local z-image.
-This page is a summary; the recipe itself is Chinese:
-[`skills/zimage-portrait-light/SKILL.md`](skills/zimage-portrait-light/SKILL.md).
+Chinese-native text encoders and work as-is in Doubao / Jimeng / Qwen as well as local ComfyUI.
+This page is a summary; the methodology itself is Chinese:
+[`skills/portrait-light/SKILL.md`](skills/portrait-light/SKILL.md).
 
 ## The one-line takeaway
 
@@ -19,14 +24,14 @@ Every other rule here is a corollary.
 ## Install
 
 ```bash
-git clone https://github.com/L-Trunks/zimage-portrait-light.git
-cd zimage-portrait-light
+git clone https://github.com/L-Trunks/ai-portrait-light.git
+cd ai-portrait-light
 bash install.sh            # Windows: powershell -ExecutionPolicy Bypass -File install.ps1
 ```
 
 Installs to `~/.claude/skills/`. Pass `--project` to install into `./.claude/skills/` instead.
 
-## The three findings that cost the most to get
+## The four findings that cost the most to get
 
 **1. Light comes from the scene description, not from adjectives.**
 Five escalating intensities of lighting adjectives appended to the prompt moved P1 / ΔB / HALO
@@ -35,11 +40,19 @@ by *nothing*. Changing one scene clause — from "behind her is a clean warm-whi
 The wall was blocking the sun out of frame. **Write the scene so that the lighting is the only
 physically possible one.**
 
-**2. The air must contain something lit.**
+**2. Pin both the distance and the bearing of the light source.**
+"The whole city's neon is right behind her" puts the neon hundreds of metres away; the light
+reaching the subject is ~zero and you get *a very pretty backdrop*. "Level with her head" pins only
+the height — the sun still drifts off to one side, so add "directly behind her head."
+And a counterintuitive one: **the noun for a lamp carries its own height.** Write "a street lamp,
+its head level with hers" and the model puts it *above* her, because that is what street lamps do.
+For a low source, change the fixture (an oil lantern on a low wall), not the adjective.
+
+**3. The air must contain something lit.**
 "Golden hour" alone gives ΔB = −10.11 (i.e. nothing). Adding "fine dust motes lit up in the air"
 gives +1.37. Dust, catkins, mist, snow grains, petals, embers, dry-ice haze — pick what fits the scene.
 
-**3. At cfg=1 there is no "not".**
+**4. At cfg=1 there is no "not".** *(model-specific: anything running Lightning / turbo / distillation)*
 Negative prompts silently do nothing. Every prohibition must be rewritten as a positive assertion:
 
 | Goal | ⛔ Doesn't work | ✅ Works |
@@ -50,25 +63,36 @@ Negative prompts silently do nothing. Every prohibition must be rewritten as a p
 
 The pattern: **`no X` summons X.** The only thing that works is describing the shape you *do* want.
 
-## Four presets, whose rules contradict each other
+## Three framing families, whose rules contradict each other
 
-| | Warm backlight · full body | Profile hair-light · close-up | Front ring-light · close-up | Self-lit · cold close-up |
-|---|---|---|---|---|
-| What makes it work | scene geometry | composition (profile + close-up) | how the light is phrased | a self-luminous prop + crushed shadows |
-| Tone | warm | warm | warm | **cold — and cold is load-bearing** |
+| | Close-up | Medium / bust | Environmental portrait (landscape) |
+|---|---|---|---|
+| What makes it work | shadow under the face + a light source touching it | composition (subject off-centre, background fully blurred) | scene geometry + a light source **next to her** |
+| Background | positively state "blurred into one shape, no detail" | same | the opposite: **it must have detail** |
+| Aspect | ⛔ portrait only | either | ⛔ landscape only |
+| Usual failure | the crop slips back to a bust shot | background steals attention | degrades into "a pretty backdrop" |
 
-Rule of thumb: full-body depends on scene geometry, close-ups depend on composition and on how you
-phrase the light, and cold tones only work through the self-lit preset.
+⛔ **A 16:9 frame will not hold a close-up.** The same close-up camera clause, revised three times
+in landscape, moved the crop by nothing across twelve renders; the identical clause in portrait
+aspect landed on the first try. A 16:9 frame is itself a request to fill it horizontally.
 
-## ⚠️ One caveat
+## ⚠️ Two caveats
 
-The repo ships eight quantitative metrics. **They can falsify, not verify.** The best-scoring set in
-the whole experiment was "a very pretty backdrop with no light on the subject at all" — that mistake
-was made three times. The only reliable check is looking at whether individual strands of hair light up.
+**Good numbers do not mean a good picture.** The repo ships eight quantitative metrics.
+**They can falsify, not verify.** The best-scoring set in the whole experiment was "a very pretty
+backdrop with no light on the subject at all" — that mistake was made three times. The only reliable
+check is looking at whether individual strands of hair light up and whether the subject has a rim.
+
+**Re-rolling the seed beats rewording.** The spread between seeds on one prompt is larger than most
+wording changes produce. These ten finals were picked from 30 candidates — **all ten slots ended up
+on a non-default seed.** If three revisions in one direction move nothing, what's blocking you is
+structural (framing, aspect ratio), not the wording.
 
 ## License
 
-Recipe documents and images: CC BY 4.0. Code: MIT. See [LICENSE](LICENSE).
+Methodology documents and images: CC BY 4.0. Code: MIT. See [LICENSE](LICENSE).
+Cosplay characters shown remain the property of their respective rights holders; this repository is
+not affiliated with them.
 
 Related: [ai-film-skills](https://github.com/L-Trunks/ai-film-skills) — AI short-film methodology skills
 by the same author.
