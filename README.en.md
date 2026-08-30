@@ -1,7 +1,9 @@
 # ai-portrait-light (English summary)
 
 A **model-agnostic methodology** for writing portrait-lighting prompts, packaged as a
-Claude Code skill. Derived from ~200 single-variable, fixed-seed A/B renders.
+Claude Code skill. Derived from ~280 single-variable, fixed-seed A/B renders plus eleven rounds of
+human-curated finals (~480 candidates, 30 kept — they are in `assets/`, with the full prompt for each
+in `docs/配方全文.md`).
 
 The rules are split by whether they survive a change of model. Most of them — everything about
 composition, where the light source sits, and what has to be in the air — are optics and framing,
@@ -17,9 +19,15 @@ This page is a summary; the methodology itself is Chinese:
 ## The one-line takeaway
 
 > Don't write *"beautiful rim lighting."* Write *"the sun sits low in the gap between the two
-> buildings behind her, level with her head."*
+> buildings 45° to her front-left, cutting across half her face."*
 
-Every other rule here is a corollary.
+Every other rule here is a corollary — it does three things at once: describes the scene instead of
+the light, pins a **bearing** rather than a height, and puts the light **on her face** instead of
+only rimming her.
+
+⚠️ An earlier version of this line ended with *"level with her head."* That is a rim light: not
+physically wrong, but eight subsequent renders were all rejected — **rim-only means the person
+doesn't look good.** See finding 2.
 
 ## Install
 
@@ -40,10 +48,12 @@ by *nothing*. Changing one scene clause — from "behind her is a clean warm-whi
 The wall was blocking the sun out of frame. **Write the scene so that the lighting is the only
 physically possible one.**
 
-**2. Pin both the distance and the bearing of the light source.**
+**2. Pin both the distance and the bearing — and only two phrasings survive.**
 "The whole city's neon is right behind her" puts the neon hundreds of metres away; the light
-reaching the subject is ~zero and you get *a very pretty backdrop*. "Level with her head" pins only
-the height — the sun still drifts off to one side, so add "directly behind her head."
+reaching the subject is ~zero and you get *a very pretty backdrop*. **"Level with her face/head" is
+retired outright**: that is the *camera's* height, so the model can only push the source behind her.
+Two phrasings never failed: **45° to her front-left/right** (a bearing) and **directly in front,
+lower than her face** (a height difference). True backlight from directly behind is the one exception.
 And a counterintuitive one: **the noun for a lamp carries its own height.** Write "a street lamp,
 its head level with hers" and the model puts it *above* her, because that is what street lamps do.
 For a low source, change the fixture (an oil lantern on a low wall), not the adjective.
@@ -84,9 +94,16 @@ backdrop with no light on the subject at all" — that mistake was made three ti
 check is looking at whether individual strands of hair light up and whether the subject has a rim.
 
 **Re-rolling the seed beats rewording.** The spread between seeds on one prompt is larger than most
-wording changes produce. These ten finals were picked from 30 candidates — **all ten slots ended up
+wording changes produce. The 30 finals were picked from ~480 candidates — **every slot ended up
 on a non-default seed.** If three revisions in one direction move nothing, what's blocking you is
 structural (framing, aspect ratio), not the wording.
+
+**A checklist is not a build order.** The single largest effect measured after publication: applying
+*every* criterion to *every* image produced a 7/12 keep rate on the first batch and then collapsed to
+1/12 and 1/12 on the next two, because attention went into filling the checklist and the poses and
+camera heights silently defaulted (10 of 12 shared one pose sentence; 12 of 12 were shot at eye
+level). Deciding **one thing each image stands on** and leaving the rest blank held at 6/12 and 4/12
+across two consecutive batches. **One skeleton lasts one batch.**
 
 ## License
 
