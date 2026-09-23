@@ -2,6 +2,8 @@
 
 **给任何文生图模型写人像光线提示词的方法论。**
 ~280 张同种子单变量对照 + 十一批成品迭代（约 480 张候选，人工挑出 30 张，其中四批整组推倒）打出来的，装成一个 Claude Code / Claude Desktop 的 skill。
+2026-09-22 又补了第五轮实践（情绪 / 眼神 / 冷暖 / 多人这条线，四批约 90 张候选），
+新增 §4.1 那三条、冷暖那一节、穿搭落地版和七行诊断表。
 
 > *A model-agnostic methodology for writing portrait-lighting prompts, derived from
 > ~280 single-variable A/B renders plus eleven rounds of human-curated finals. Prompts are full-sentence Chinese — they work as-is
