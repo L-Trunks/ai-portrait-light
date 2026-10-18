@@ -1,5 +1,11 @@
 # ai-portrait-light (English summary)
 
+**2026-10-18 update:** [Krea2 / Qwen portrait selection notes](docs/Krea2与Qwen-选图实践-20261018.md)
+record 16 user-selected images, their actual settings, and prompt excerpts. New SKILL §0.1
+separates soft diffusion, natural actions, skin texture, and reflectance. Historical absolute
+rules about framing, strong face lighting, or visible haze are conditional findings from older
+samples, not universal requirements. These multi-variable selection rounds are not a causal A/B test.
+
 A **model-agnostic methodology** for writing portrait-lighting prompts, packaged as a
 Claude Code skill. Derived from ~280 single-variable, fixed-seed A/B renders plus eleven rounds of
 human-curated finals (~480 candidates, 30 kept — they are in `assets/`, with the full prompt for each
