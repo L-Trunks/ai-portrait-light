@@ -1,5 +1,7 @@
 # ai-portrait-light (English summary)
 
+**2026-10-29 update:** [15 user-selected Z-Image Turbo BF16 portraits](docs/Z-Image-Turbo-选图实践-20261029.md), with original prompts, seeds, sizes, and source hashes. SKILL §0.4 adds reference-lighting transfer, seated-skirt coverage checks, and selection feedback. These are multi-variable explorations, not a causal benchmark; the original GPT forest reference was not faithfully reproduced.
+
 **2026-10-18 update:** [Krea2 / Qwen portrait selection notes](docs/Krea2与Qwen-选图实践-20261018.md)
 record 16 user-selected images, their actual settings, and prompt excerpts. New SKILL §0.1
 separates soft diffusion, natural actions, skin texture, and reflectance. Historical absolute
